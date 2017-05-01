@@ -23,11 +23,19 @@ goal_example-infra-apply() {
   tf "plan"
 }
 
+goal_setup() {
+  pushd "${SCRIPT_DIR}" > /dev/null
+    bundle install
+  popd > /dev/null
+}
+
 if type -t "goal_$1" &>/dev/null; then
   goal_$1 ${@:2}
 else
   echo "usage: $0 <goal>
 goal:
+    setup                   -- install all dependencies, make repo ready for development
+
     test                    -- run all tests
 
     example-infra-plan      -- terraform plan on example infra
