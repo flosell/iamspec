@@ -1,7 +1,6 @@
 require 'aws-sdk'
 require 'iamspec/version'
-
-%w( base iam_user ).each {|type| require "iamspec/type/#{type}"}
+%w( base generic_policy_source iam_user).each {|type| require "iamspec/type/#{type}"}
 
 extend Iamspec::Type
 class RSpec::Core::ExampleGroup

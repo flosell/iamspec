@@ -1,15 +1,16 @@
 module Iamspec::Type
+  def get_account_id
+    sts = Aws::STS::Client.new(region: 'us-east-1')
+    sts.get_caller_identity.account
+  end
+
   class Base
 
     attr_reader :name
-    attr_reader :account_id
 
     def initialize(name=nil, options = {})
       @name    = name
       @options = options
-
-      @account_id = get_account_id
-      # @runner  = Specinfra::Runner
     end
 
     def to_s
@@ -29,13 +30,6 @@ module Iamspec::Type
 
     def to_ary
       to_s.split(" ")
-    end
-
-    private
-
-    def get_account_id
-      sts = Aws::STS::Client.new(region: 'us-east-1')
-      sts.get_caller_identity.account
     end
   end
 end
