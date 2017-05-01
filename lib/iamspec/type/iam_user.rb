@@ -4,13 +4,9 @@ module Iamspec::Type
   end
 
   class IamUser < GenericPolicySource
-    def initialize(name)
-      super("arn:aws:iam::#{get_account_id}:user/#{name}", {})
-      @user_name = name
-    end
-
-    def able_to_assume_role?(role_name)
-      allowed_to?('sts:AssumeRole', ["arn:aws:iam::#{get_account_id}:role/#{role_name}"])
+    def initialize(user_name)
+      super("arn:aws:iam::#{get_account_id}:user/#{user_name}")
+      @user_name = user_name
     end
 
     def to_s

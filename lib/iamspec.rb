@@ -1,9 +1,15 @@
 require 'aws-sdk'
 require 'iamspec/version'
-%w( base generic_policy_source iam_user).each {|type| require "iamspec/type/#{type}"}
+require 'iamspec/matcher/be_allowed_to'
+require 'iamspec/type/generic_policy_source'
+require 'iamspec/type/iam_user'
+require 'iamspec/action/generic_action'
+require 'iamspec/action/assume_role'
 
 extend Iamspec::Type
 class RSpec::Core::ExampleGroup
   extend Iamspec::Type
   include Iamspec::Type
+  extend Iamspec::Action
+  include Iamspec::Action
 end
