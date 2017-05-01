@@ -1,4 +1,8 @@
 module Iamspec::Type
+  def iam_user(name)
+    IamUser.new(name, {})
+  end
+
   class IamUser < Base
     def able_to_assume_role?(role_name)
       iam = Aws::IAM::Client.new(region: 'us-east-1')
