@@ -10,7 +10,7 @@ resource "aws_iam_role" "some_role" {
 
 data "aws_iam_policy_document" "describe_instances" {
   statement {
-    actions = ["ec2:DescribeInstances"]
+    actions = ["ec2:Describe*"]
     resources = ["*"]
   }
 }

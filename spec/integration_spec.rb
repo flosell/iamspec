@@ -13,7 +13,7 @@ describe 'AWS IAM Integration' do
     end
 
     describe generic_policy_source("arn:aws:iam::#{account_id}:role/SomeRole") do
-      it { should be_allowed_to perform_actions(['ec2:DescribeInstances','ec2:DescribeAddresses']) }
+      it { should be_allowed_to perform_actions(['ec2:DescribeInstances','ec2:DescribeAddresses','ec2:DescribeVolumes']) }
     end
   end
 

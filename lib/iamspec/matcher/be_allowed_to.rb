@@ -30,6 +30,18 @@ class BeAllowedTo
     "wasn't allowed because of #{failure_strings(@evaluation_results)}"
   end
 
+  def expected
+    @evaluation_results.map {|result| "#{result.eval_action_name} is allowed"}.join("\n")
+  end
+
+  def actual
+    @evaluation_results.map {|result| "#{result.eval_action_name} is #{result.eval_decision}"}.join("\n")
+  end
+
+  def diffable?
+    true
+  end
+
   private
 
   def failure_strings(results)
