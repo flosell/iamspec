@@ -3,7 +3,7 @@ require 'iamspec/version'
 require 'iamspec/helpers/account'
 require 'iamspec/matcher/be_allowed_to'
 require 'iamspec/type/generic_policy_source'
-require 'iamspec/type/iam_user'
+require 'iamspec/type/arn_policy_source'
 require 'iamspec/action/generic_action'
 require 'iamspec/action/assume_role'
 

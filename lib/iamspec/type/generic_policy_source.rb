@@ -4,17 +4,17 @@ module Iamspec::Type
   end
 
   class GenericPolicySource
-    attr_reader :name
+    attr_reader :arn
 
-    def initialize(name)
-      @name    = name
+    def initialize(arn)
+      @arn = arn
     end
 
     def to_s
       type = self.class.name.split(':')[-1]
       type.gsub!(/([a-z\d])([A-Z])/, '\1 \2')
       type.capitalize!
-      %Q!#{type} "#{@name}"!
+      %Q!#{type} "#{@arn}"!
     end
 
     def inspect

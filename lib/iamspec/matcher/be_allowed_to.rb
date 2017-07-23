@@ -3,7 +3,7 @@ RSpec::Matchers.define :be_allowed_to do |action|
 
     iam  = Aws::IAM::Client.new(region: 'us-east-1')
     resp = iam.simulate_principal_policy({
-        policy_source_arn: policy_source.name,
+        policy_source_arn: policy_source.arn,
         action_names:      action.action_names,
         resource_arns:     action.resource_arns,
     })
