@@ -1,11 +1,13 @@
 module Iamspec::Type
-  def iam_user(name)
-    IamUser.new(name)
+  include Iamspec::Helpers
+
+  def iam_user(account_id=AccountHelper.current_account_id, name)
+    IamUser.new(account_id,name)
   end
 
   class IamUser < GenericPolicySource
-    def initialize(user_name)
-      super("arn:aws:iam::#{get_account_id}:user/#{user_name}")
+    def initialize(account_id, user_name)
+      super("arn:aws:iam::#{account_id}:user/#{user_name}")
       @user_name = user_name
     end
 

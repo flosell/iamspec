@@ -1,10 +1,4 @@
 module Iamspec::Type
-  def get_account_id
-    # TODO: the wrong place here
-    sts = Aws::STS::Client.new(region: 'us-east-1')
-    sts.get_caller_identity.account
-  end
-
   def generic_policy_source(arn)
     GenericPolicySource.new(arn)
   end
