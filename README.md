@@ -76,8 +76,9 @@ See [`integration_spec.rb`](spec/integration_spec.rb) for more examples or TODO 
 
 ## Development
 
-The `go`-script is your central entrypoint. It will tell you what to do.
-Call `./go setup` to get started.
+The `go`-script is your central entrypoint. Call it without arguments to see what's available.
+
+The integration-tests require an AWS account with certain IAM resources set up. Use the `go` script to apply the `example_infra` terraform code to do this (don't use a production account!)
 
 ## Contributing
 
