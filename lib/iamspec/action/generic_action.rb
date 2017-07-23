@@ -2,6 +2,9 @@ module Iamspec::Action
   def perform_action(action_name, resource_arns = [])
     GenericAction.new([action_name], resource_arns)
   end
+  def perform_actions(action_names, resource_arns = [])
+    GenericAction.new(action_names, resource_arns)
+  end
 
   class GenericAction
     attr_reader :action_names

@@ -11,6 +11,10 @@ describe 'AWS IAM Integration' do
     describe generic_policy_source("arn:aws:iam::#{account_id}:user/some_user_without_admin_permissions") do
       it { should_not be_allowed_to perform_action('sts:AssumeRole').with_resource("arn:aws:iam::#{account_id}:role/Administrator") }
     end
+
+    describe generic_policy_source("arn:aws:iam::#{account_id}:role/SomeRole") do
+      it { should be_allowed_to perform_actions(['ec2:DescribeInstances','ec2:DescribeAddresses']) }
+    end
   end
 
   describe('Using syntactic sugar') do

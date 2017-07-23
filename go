@@ -15,6 +15,13 @@ goal_test() {
   popd > /dev/null
 }
 
+goal_test-unit() {
+  pushd "${SCRIPT_DIR}" > /dev/null
+    bundle exec rspec --exclude-pattern spec/integration_spec.rb
+  popd > /dev/null
+}
+
+
 goal_example-infra-plan() {
   tf "plan"
 }
@@ -37,6 +44,7 @@ goal:
     setup                   -- install all dependencies, make repo ready for development
 
     test                    -- run all tests
+    test-unit               -- run only unit tests
 
     example-infra-plan      -- terraform plan on example infra
     example-infra-apply     -- terraform apply on example infra

@@ -1,21 +1,45 @@
-RSpec::Matchers.define :be_allowed_to do |action|
-  match do |policy_source|
+def be_allowed_to(action)
+  BeAllowedTo.new(action)
+end
 
+class BeAllowedTo
+  def initialize(action)
+    @action = action
+  end
+
+  def matches?(subject)
+    @subject = subject
     iam  = Aws::IAM::Client.new(region: 'us-east-1')
     resp = iam.simulate_principal_policy({
-        policy_source_arn: policy_source.arn,
-        action_names:      action.action_names,
-        resource_arns:     action.resource_arns,
+        policy_source_arn: subject.arn,
+        action_names:      @action.action_names,
+        resource_arns:     @action.resource_arns,
     })
-    @evaluation_result  = resp.evaluation_results[0]
-    @evaluation_result.eval_decision == 'allowed'
+
+    # puts "fooo: #{resp.evaluation_results}"
+
+    @evaluation_results = resp.evaluation_results
+    failure_results(@evaluation_results).empty?
   end
 
-  description do |subject|
-    "be allowed to #{action.to_s}"
+  def description
+    "be allowed to #{@action.to_s}"
   end
 
-  failure_message do |subject|
-    "expected #{subject} to be allowed to #{action.to_s} but wasn't because of #{@evaluation_result.eval_decision}"
+  def failure_message
+    "wasn't allowed because of #{failure_strings(@evaluation_results)}"
   end
+
+  private
+
+  def failure_strings(results)
+    failure_results(results)
+        .map { |result| "#{result.eval_decision} for #{result.eval_action_name}"}
+        .join(' and ')
+  end
+
+  def failure_results(results)
+    results.select {|result| result.eval_decision != 'allowed'}
+  end
+
 end
