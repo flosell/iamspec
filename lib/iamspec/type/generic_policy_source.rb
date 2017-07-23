@@ -24,11 +24,7 @@ module Iamspec::Type
     end
 
     def inspect
-      if defined?(PowerAssert)
-        @inspection
-      else
-        to_s
-      end
+      to_s
     end
 
     def to_ary

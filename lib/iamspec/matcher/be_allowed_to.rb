@@ -1,9 +1,3 @@
-# RSpec.configure do |config|
-#   config.expect_with :rspec do |c|
-#     c.include_chain_clauses_in_custom_matcher_descriptions = true
-#   end
-# end
-
 RSpec::Matchers.define :be_allowed_to do |action|
   match do |policy_source|
 
