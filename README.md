@@ -45,9 +45,29 @@ Or install it yourself as:
 
     $ gem install iamspec
 
+Then add it to your `spec_helper`
+
+    require "iamspec"
+
 ## Usage
 
-TODO: Write usage instructions here
+Write your first test: 
+
+```ruby
+describe('Using syntactic sugar') do
+  describe iam_user('some_user_with_admin_permissions') do
+      it { should be_allowed_to assume_role('Administrator') }
+  end
+end
+# OR 
+describe("Using a generic resource") do
+  describe generic_policy_source("arn:aws:iam::#{get_account_id}:user/some_user_with_admin_permissions") do
+    it { should be_allowed_to perform_action('sts:AssumeRole').with_resource("arn:aws:iam::#{get_account_id}:role/Administrator") }
+  end
+end
+```
+
+See [`integration_spec.rb`](spec/integration_spec.rb) for more examples or TODO API docs
 
 ## TODO
 
