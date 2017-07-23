@@ -20,7 +20,7 @@ goal_example-infra-plan() {
 }
 
 goal_example-infra-apply() {
-  tf "plan"
+  tf "apply"
 }
 
 goal_setup() {
