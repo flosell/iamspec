@@ -76,6 +76,9 @@ See [`integration_spec.rb`](spec/integration_spec.rb) for more examples
 
 ## TODO
 
+* [ ] clean things up
+* [ ] add documentation
+* [ ] release on RubyGems
 * [ ] more syntactic sugar
 * [ ] spec directly against policy JSON
 
