@@ -2,13 +2,11 @@
 
 RSpec Tests for AWS IAM using the AWS Policy Simulator - inspired by serverspec.
 
-**Caution: this is a proof of concept I hacked together on a weekend. Don't expect everything to work perfectly!** - However, I'm interested in feedback, drop me a line if this feels useful to you!
+**Caution: WIP and proof of concept: Don't expect everything to work perfectly, make sense or be maintained going forward** - However, I'm interested in feedback, drop me a line if this feels useful to you!
 
 The other day, after making some changes to our projects IAM configuration, I told my colleague: _"It should work now"_. When he tried it, it didn't. No worries, I found the mistake, fixed it and on second try, it worked. 
 
 But something kept nagging me: As a developer, I don't usually tell people "it _should_ work". I write tests, I _know_ it works. But somehow, I didn't do that in an area that counts, identity and access management. IAMSpec is my attempt in filling this gap.
-
-**TODO: asciicinema**
  
 ## FAQ
 
@@ -72,7 +70,7 @@ describe("Using a generic resource") do
 end
 ```
 
-See [`integration_spec.rb`](spec/integration_spec.rb) for more examples or TODO API docs
+See [`integration_spec.rb`](spec/integration_spec.rb) for more examples
 
 ## TODO
 
