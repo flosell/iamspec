@@ -16,6 +16,12 @@ But something kept nagging me: As a developer, I don't usually tell people "it _
 
 It automates dealing with the AWS Policy Simulator. It allows you to write tests against your IAM configuration
 
+### Does it support everything I can do in IAM? 
+
+No. It uses the AWS Policy Simulator in the background so iamspec can only check what's supported by the Policy Simulator.
+
+For example, assume role policies seem to be ignored. 
+
 ### Does it support Terraform/CloudFormation/...?
  
 IAMSpec runs your tests against the state in IAM, therefore it is independent from some tool. It is meant to run after you applied your changes in your favorite tool. 
@@ -26,8 +32,7 @@ Yes, unless you set up a separate "staging accounts" where you test your IAM con
 
 ### Can I extend it? 
 
-Sure, you can write your own syntactic sugar based on `GenericAction` and `GenericType`. And if you think others can profit from your extension, why not send in a pull request? 
- 
+Sure, you can write your own syntactic sugar based on `GenericAction` and `GenericType`. And if you think others can profit from your extension, why not send in a pull request?
 
 ## Installation
 
