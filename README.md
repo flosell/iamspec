@@ -4,6 +4,8 @@ RSpec Tests for AWS IAM using the AWS Policy Simulator - inspired by serverspec.
 
 **Caution: WIP and proof of concept: Don't expect everything to work perfectly, make sense or be maintained going forward** - However, I'm interested in feedback, drop me a line if this feels useful to you!
 
+## Why?
+
 The other day, after making some changes to our projects IAM configuration, I told my colleague: _"It should work now"_. When he tried it, it didn't. No worries, I found the mistake, fixed it and on second try, it worked. 
 
 But something kept nagging me: As a developer, I don't usually tell people "it _should_ work". I write tests, I _know_ it works. But somehow, I didn't do that in an area that counts, identity and access management. IAMSpec is my attempt in filling this gap.
