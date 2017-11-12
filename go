@@ -5,6 +5,7 @@ SCRIPT_DIR=$(cd $(dirname $0) ; pwd -P)
 
 tf() {
   pushd "${SCRIPT_DIR}/example_infra" > /dev/null
+    terraform init
     terraform $1
   popd > /dev/null
 }
