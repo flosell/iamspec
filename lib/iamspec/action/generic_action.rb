@@ -53,6 +53,18 @@ module Iamspec::Action
       self
     end
 
+    def with_userid_from_role_arn(role_arn, assume_role_arn = nil)
+      opts = {}
+      if assume_role_arn
+        sts = Aws::STS::Client.new()
+        opts[:credentials] = sts.assume_role(role_arn: assume_role_arn, role_session_name: 'temp')
+      end
+      iam = Aws::IAM::Client.new(opts)
+      @userid = iam.get_role(role_name: role_arn).role.role_id
+      @context_entries[:userid] = Aws::IAM::Types::ContextEntry.new({context_key_name: "aws:userid", context_key_values: ["#{@userid}:test"], context_key_type: "string"})
+      self
+    end
+
     def with_userid(userid)
       @userid = userid
       @context_entries[:userid] = Aws::IAM::Types::ContextEntry.new({context_key_name: "aws:userid", context_key_values: [userid], context_key_type: "string"})
