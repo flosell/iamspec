@@ -56,8 +56,8 @@ module Iamspec::Action
     def with_userid_from_role_arn(role_arn, assume_role_arn = nil)
       opts = {}
       if assume_role_arn
-        sts = Aws::STS::Client.new()
-        opts[:credentials] = sts.assume_role(role_arn: assume_role_arn, role_session_name: 'temp')
+        @sts ||= Aws::STS::Client.new()
+        opts[:credentials] = @sts.assume_role(role_arn: assume_role_arn, role_session_name: 'temp')
       end
       iam = Aws::IAM::Client.new(opts)
       @userid = iam.get_role(role_name: role_arn).role.role_id
@@ -85,13 +85,18 @@ module Iamspec::Action
 
 
     def with_resource_policy(role_arn = nil, resource_arns = @resource_arns)
-      @resource_arns.each do |arn|
+      @sts ||= Aws::STS::Client.new()
+      res = @sts.assume_role(role_arn: role_arn, role_session_name: 'temp')
+      resource_arns.each do |arn|
         if arn.start_with?('arn:aws:s3:::')
           bucket = arn.scan(/arn:aws:s3:::([^\/]+)/).last.first
-          sts = Aws::STS::Client.new()
-          res = sts.assume_role(role_arn: role_arn, role_session_name: 'temp')
           s3 = Aws::S3::Client.new(:credentials => res)
           @policy_string = s3.get_bucket_policy(:bucket => bucket).policy.read
+        elsif arn.start_with?('arn:aws:sqs:')
+          queue_parts = arn.scan(/arn:aws:sqs:([^\:]+):([^\:]+):([^\:]+)/).last
+          queue_url = URI.encode("https://sqs.#{queue_parts[0]}.amazonaws.com/#{queue_parts[1]}/#{queue_parts[2]}")
+          sqs = Aws::SQS::Client.new(:credentials => res)
+          @policy_string = sqs.get_queue_attributes({queue_url: queue_url,  attribute_names: ["Policy"]}).attributes['Policy']
         end
       end
       self
