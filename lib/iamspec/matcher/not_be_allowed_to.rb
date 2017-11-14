@@ -15,7 +15,7 @@ class NotBeAllowedTo < GenericAllowedTo
   end
 
   def description
-    "not be allowed to #{@action.to_s} #{@action.userid ? 'with userid ' + @action.userid : ''}"
+    "not be allowed to #{@action.to_s}#{@action.userid ? ' with userid ' + @action.userid : ''}"
   end
 
   def failure_message
@@ -23,11 +23,7 @@ class NotBeAllowedTo < GenericAllowedTo
   end
 
   def expected
-    @evaluation_results.map {|result| "#{result.eval_action_name} is allowed"}.join("\n")
-  end
-
-  def actual
-    @evaluation_results.map {|result| "#{result.eval_action_name} is #{result.eval_decision}"}.join("\n")
+    @evaluation_results.map {|result| "#{result.eval_action_name} is not allowed"}.join("\n")
   end
 
   def diffable?
@@ -35,12 +31,6 @@ class NotBeAllowedTo < GenericAllowedTo
   end
 
   private
-
-  def failure_strings(results)
-    failure_results(results)
-        .map {|result| "#{result.eval_decision} for #{result.eval_action_name}"}
-        .join(' and ')
-  end
 
   def failure_results(results)
     results.select {|result| result.eval_decision == 'allowed'}

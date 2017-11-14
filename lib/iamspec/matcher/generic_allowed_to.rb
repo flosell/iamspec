@@ -19,4 +19,20 @@ class GenericAllowedTo
 
     resp.evaluation_results
   end
+
+  def actual
+    @evaluation_results.map {|result| "#{result.eval_action_name} is #{result.eval_decision}"}.join("\n")
+  end
+
+  def diffable?
+    true
+  end
+
+  private
+
+  def failure_strings(results)
+    failure_results(results)
+        .map {|result| "#{result.eval_decision} for #{result.eval_action_name}"}
+        .join(' and ')
+  end
 end

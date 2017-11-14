@@ -23,7 +23,7 @@ module Iamspec::Action
     attr_reader :sourceip
     attr_reader :context_entries
 
-    def initialize(action_names, caller_arn, resource_arns)
+    def initialize(action_names, caller_arn = nil, resource_arns)
       @caller_arn = caller_arn
       @action_names = action_names
       @resource_arns = resource_arns
