@@ -53,6 +53,37 @@ module Iamspec::Action
       self
     end
 
+    def with_caller_arn(caller_arn)
+      @caller_arn = caller_arn
+      self
+    end
+
+    def with_caller_arn_from_role_name(role_arn, assume_role_arn = nil)
+      opts = {}
+      if assume_role_arn
+        @sts ||= Aws::STS::Client.new()
+        opts[:credentials] = @sts.assume_role(role_arn: assume_role_arn, role_session_name: 'temp')
+      end
+      iam = Aws::IAM::Client.new(opts)
+      with_caller_arn(iam.get_role(role_name: role_arn).role.arn)
+    end
+
+
+    def with_source_arn_from_role_name(role_arn, assume_role_arn = nil)
+      opts = {}
+      if assume_role_arn
+        @sts ||= Aws::STS::Client.new()
+        opts[:credentials] = @sts.assume_role(role_arn: assume_role_arn, role_session_name: 'temp')
+      end
+      iam = Aws::IAM::Client.new(opts)
+      with_source_arn(iam.get_role(role_name: role_arn).role.arn)
+    end
+
+    def with_source_arn(arn)
+      @context_entries[:source_arn] = Aws::IAM::Types::ContextEntry.new({context_key_name: "AWS:SourceArn", context_key_values: [arn], context_key_type: "string"})
+      self
+    end
+
     def with_userid_from_role_arn(role_arn, assume_role_arn = nil)
       opts = {}
       if assume_role_arn
@@ -96,7 +127,7 @@ module Iamspec::Action
           queue_parts = arn.scan(/arn:aws:sqs:([^\:]+):([^\:]+):([^\:]+)/).last
           queue_url = URI.encode("https://sqs.#{queue_parts[0]}.amazonaws.com/#{queue_parts[1]}/#{queue_parts[2]}")
           sqs = Aws::SQS::Client.new(:credentials => res)
-          @policy_string = sqs.get_queue_attributes({queue_url: queue_url,  attribute_names: ["Policy"]}).attributes['Policy']
+          @policy_string = sqs.get_queue_attributes({queue_url: queue_url, attribute_names: ["Policy"]}).attributes['Policy']
         end
       end
       self
