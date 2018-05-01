@@ -1,5 +1,7 @@
 require_relative 'generic_allowed_to.rb'
 
+# TODO: shouldn't this be `should_not be_allowed_to perform_action('iam:ListUsers')`?
+
 def not_be_allowed_to(action)
   NotBeAllowedTo.new(action)
 end
