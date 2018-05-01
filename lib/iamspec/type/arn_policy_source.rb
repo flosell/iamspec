@@ -19,7 +19,7 @@ module Iamspec::Type
     end
 
     def to_s
-      "#{@human_readable_name} \"#{@user_name}\""
+      "#{@human_readable_name} \"#{@user_name}\"" + context_entries_to_s
     end
   end
 end

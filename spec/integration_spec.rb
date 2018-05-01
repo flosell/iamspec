@@ -4,7 +4,8 @@ describe 'AWS IAM Integration' do
   account_id = Iamspec::Helpers::AccountHelper.current_account_id
 
   describe('Using a generic resource') do
-    describe generic_policy_source("arn:aws:iam::#{account_id}:user/some_user_with_admin_permissions") do
+    describe generic_policy_source("arn:aws:iam::#{account_id}:user/some_user_with_admin_permissions")
+                 .with_context('aws:multifactorauthpresent', 'true', 'boolean') do
       it { should be_allowed_to perform_action('sts:AssumeRole').with_resource("arn:aws:iam::#{account_id}:role/Administrator") }
     end
 
@@ -19,8 +20,11 @@ describe 'AWS IAM Integration' do
 
   describe('Using syntactic sugar') do
     describe('for users') do
-      describe iam_user('some_user_with_admin_permissions') do
+      describe iam_user('some_user_with_admin_permissions').with_mfa_present(true) do
         it { should be_allowed_to assume_role('Administrator') }
+      end
+      describe iam_user('some_user_with_admin_permissions').with_mfa_present(false) do
+        it { should not_be_allowed_to assume_role('Administrator') }
       end
 
       describe iam_user('some_user_without_admin_permissions') do

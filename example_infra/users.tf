@@ -4,8 +4,15 @@ resource "aws_iam_user" "some_user_without_admin_permissions" { name = "some_use
 
 data "aws_iam_policy_document" "assume_administrator_roles" {
   statement {
+    effect = "Allow"
     actions = ["sts:AssumeRole"]
     resources = ["arn:aws:iam::${var.account_id}:role/Administrator"]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:MultiFactorAuthPresent"
+      values   = ["true"]
+    }
   }
 }
 
