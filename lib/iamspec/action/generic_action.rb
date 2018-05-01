@@ -80,7 +80,7 @@ module Iamspec::Action
     end
 
     def with_source_arn(arn)
-      @context_entries[:source_arn] = Aws::IAM::Types::ContextEntry.new({context_key_name: "AWS:SourceArn", context_key_values: [arn], context_key_type: "string"})
+      with_context("AWS:SourceArn", arn)
       self
     end
 
@@ -92,25 +92,30 @@ module Iamspec::Action
       end
       iam = Aws::IAM::Client.new(opts)
       @userid = iam.get_role(role_name: role_arn).role.role_id
-      @context_entries[:userid] = Aws::IAM::Types::ContextEntry.new({context_key_name: "aws:userid", context_key_values: ["#{@userid}:#{role_arn}"], context_key_type: "string"})
+      with_context("aws:userid", "#{@userid}:#{role_arn}")
       self
     end
 
     def with_userid(userid)
       @userid = userid
-      @context_entries[:userid] = Aws::IAM::Types::ContextEntry.new({context_key_name: "aws:userid", context_key_values: [userid], context_key_type: "string"})
+      with_context("aws:userid", userid)
       self
     end
 
     def with_sourcevpce(sourcevpce)
       @sourcevpce = sourcevpce
-      @context_entries[:sourcevpce] = Aws::IAM::Types::ContextEntry.new({context_key_name: "aws:sourceVpce", context_key_values: [sourcevpce], context_key_type: "string"})
+      with_context("aws:sourceVpce", sourcevpce)
       self
     end
 
     def with_sourceip(sourceip)
       @sourceip = sourceip
-      @context_entries[:sourceip] = Aws::IAM::Types::ContextEntry.new({context_key_name: "aws:SourceIp", context_key_values: [sourceip], context_key_type: "string"})
+      with_context("aws:SourceIp", sourceip)
+      self
+    end
+
+    def with_context(key, value, type = "string")
+      @context_entries[key] = Aws::IAM::Types::ContextEntry.new({context_key_name: key, context_key_values: [value], context_key_type: type})
       self
     end
 

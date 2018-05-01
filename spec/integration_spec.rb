@@ -16,6 +16,13 @@ describe 'AWS IAM Integration' do
     describe generic_policy_source("arn:aws:iam::#{account_id}:role/SomeRole") do
       it { should be_allowed_to perform_actions(['ec2:DescribeInstances','ec2:DescribeAddresses','ec2:DescribeVolumes']) }
     end
+
+    describe generic_policy_source("arn:aws:iam::#{account_id}:group/some_mfa_self_service_group") do
+      it { should be_allowed_to perform_action('iam:ListMFADevices')
+                                    .with_resource("arn:aws:iam::#{account_id}:user/the-current-user")
+                                    .with_context('aws:username', 'the-current-user') }
+    end
+
   end
 
   describe('Using syntactic sugar') do
