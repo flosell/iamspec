@@ -39,7 +39,7 @@ Sure, you can write your own syntactic sugar based on `GenericAction` and `Gener
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'iamspec'
+gem 'iamspec',:git => 'https://github.com/flosell/iamspec.git'
 ```
 
 And then execute:
