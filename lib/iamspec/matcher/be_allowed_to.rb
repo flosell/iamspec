@@ -21,6 +21,10 @@ class BeAllowedTo < GenericAllowedTo
   def failure_message
     "wasn't allowed because of #{failure_strings(@evaluation_results)}"
   end
+  
+  def failure_message_when_negated
+    @evaluation_results.map {|result| "#{result.eval_action_name} was allowed"}.join("\n")
+  end
 
   def expected
     @evaluation_results.map {|result| "#{result.eval_action_name} is allowed"}.join("\n")
